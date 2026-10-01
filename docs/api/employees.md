@@ -84,3 +84,17 @@ Required Role: `admin` (`Authorization: Bearer <access_token>`)
 }
 ```
 * **Response (200 OK)**: Updated `EmployeeResponse` object (sets `is_active: false` and `status: "inactive"`).
+
+---
+
+## 💻 Frontend UI Integration Details
+
+* **Page Component**: [`frontend/src/pages/EmployeesPage.jsx`](file:///d:/Task-Management/frontend/src/pages/EmployeesPage.jsx)
+* **Service Module**: [`frontend/src/api/employeeApi.js`](file:///d:/Task-Management/frontend/src/api/employeeApi.js)
+* **Route Protection**: `<ProtectedRoute requireAdmin={true} />` guards `/employees` against employee user access.
+* **UI Features**:
+  * Real-time debounced search filter (400ms) on name or email.
+  * Responsive table layout on desktop/tablet with mobile card reflow.
+  * `EmployeeModal` component supporting atomic creation and PUT profile edits with field validation.
+  * `ConfirmDialog` component providing safe status activation/deactivation confirmations.
+

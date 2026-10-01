@@ -37,7 +37,16 @@ All notable changes to this project are documented in this file.
   - Role-scoped recent 5 tasks table fetched via centralized `taskApi.js`.
   - Loading skeleton states, empty states, and user-recoverable retry error handling.
   - Responsive reflows for desktop (1440px/1024px), tablet (768px), and mobile (375px) viewports.
-- Established version-controlled documentation suite under `docs/`.
+- Implemented Employee Management UI (`EmployeesPage.jsx`, `EmployeeTable.jsx`, `EmployeeModal.jsx`):
+  - Admin-only guarded route with real-time employee directory search, pagination, and total count summary.
+  - Add & Edit Employee modals with client validation and backend error messaging.
+  - Confirmation dialog for status activation/deactivation toggle (`PATCH /api/employees/{id}/status`).
+- Implemented Task Management UI (`TasksPage.jsx`, `TaskTable.jsx`, `TaskModal.jsx`, `TaskDetailModal.jsx`):
+  - Role-aware task management supporting Admin CRUD actions and Employee task view/status-update actions.
+  - Multi-parameter filtering (status, priority, assignee for admin) and pagination.
+  - Task Detail View Modal with inline status update dropdown.
+  - Admin task creation/editing and confirmation modal for permanent task deletion (`DELETE /api/tasks/{id}`).
+- Reusable UI component library (`Modal.jsx`, `ConfirmDialog.jsx`, `Pagination.jsx`).
 
 ---
 

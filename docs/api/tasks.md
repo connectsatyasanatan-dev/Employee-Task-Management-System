@@ -129,3 +129,19 @@ Status: **Implemented & Verified**
 ```
 * **Error Responses**:
   * `404 Not Found`: Task does not exist.
+
+---
+
+## 💻 Frontend UI Integration Details
+
+* **Page Component**: [`frontend/src/pages/TasksPage.jsx`](file:///d:/Task-Management/frontend/src/pages/TasksPage.jsx)
+* **Service Module**: [`frontend/src/api/taskApi.js`](file:///d:/Task-Management/frontend/src/api/taskApi.js)
+* **Role Handling**:
+  * **Admin View**: Displays organization-wide task board, assignee selector filter, "Create Task" button, "Edit Task" action, and "Delete Task" confirmation modal.
+  * **Employee View**: Displays assigned task list, status/priority filters, and quick inline status update dropdown (`PATCH /api/tasks/{id}/status`).
+* **UI Features**:
+  * Multi-parameter task list filtering (Status, Priority, Assignee).
+  * `TaskModal` for task creation/editing with date relationship validation (`due_date >= start_date`).
+  * `TaskDetailModal` providing detailed metadata view and direct status changes.
+  * `ConfirmDialog` for permanent task deletion (`DELETE /api/tasks/{id}`).
+

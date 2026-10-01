@@ -24,6 +24,8 @@ This document tracks all features across the system using an evidence-based inve
 | `UI-001` | Frontend Axios Client & Interceptors | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js) |
 | `UI-002` | Frontend Routing & App Shell | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) |
 | `UI-003` | Role-Aware Dashboard UI & Charts | All Users | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/DashboardPage.jsx`](file:///d:/Task-Management/frontend/src/pages/DashboardPage.jsx) |
+| `UI-004` | Employee Management UI (List, Add, Edit, Status) | Admin Only | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/EmployeesPage.jsx`](file:///d:/Task-Management/frontend/src/pages/EmployeesPage.jsx) |
+| `UI-005` | Task Management UI (CRUD, Filters, Detail Modal) | Admin/Employee | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/TasksPage.jsx`](file:///d:/Task-Management/frontend/src/pages/TasksPage.jsx) |
 
 ---
 
