@@ -33,15 +33,16 @@ def get_dashboard_stats(
     """
     today = date.today()
 
-    # Total employees count (Active employees in the system)
-    total_employees_statement = select(func.count()).where(
-        User.role == "employee",
-        User.is_active.is_(True),
-    )
-    total_employees = db.scalar(total_employees_statement) or 0
-
     if current_user.role == "admin":
-        # Admin scope: all tasks
+        total_employees = (
+            db.scalar(
+                select(func.count()).where(
+                    User.role == "employee",
+                    User.is_active.is_(True),
+                )
+            )
+            or 0
+        )
         total_tasks = db.scalar(select(func.count()).select_from(Task)) or 0
         pending_tasks = (
             db.scalar(
@@ -76,8 +77,17 @@ def get_dashboard_stats(
             )
             or 0
         )
+
+        return DashboardStatsResponse(
+            total_tasks=total_tasks,
+            pending_tasks=pending_tasks,
+            in_progress_tasks=in_progress_tasks,
+            completed_tasks=completed_tasks,
+            overdue_tasks=overdue_tasks,
+            total_employees=total_employees,
+            my_assigned_tasks=None,
+        )
     else:
-        # Employee scope: tasks assigned to current_user.id
         user_tasks = Task.assigned_to_user_id == current_user.id
 
         total_tasks = (
@@ -118,11 +128,12 @@ def get_dashboard_stats(
             or 0
         )
 
-    return DashboardStatsResponse(
-        total_employees=total_employees,
-        total_tasks=total_tasks,
-        pending_tasks=pending_tasks,
-        in_progress_tasks=in_progress_tasks,
-        completed_tasks=completed_tasks,
-        overdue_tasks=overdue_tasks,
-    )
+        return DashboardStatsResponse(
+            total_tasks=total_tasks,
+            pending_tasks=pending_tasks,
+            in_progress_tasks=in_progress_tasks,
+            completed_tasks=completed_tasks,
+            overdue_tasks=overdue_tasks,
+            total_employees=None,
+            my_assigned_tasks=total_tasks,
+        )

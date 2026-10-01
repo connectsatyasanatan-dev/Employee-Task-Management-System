@@ -10,37 +10,44 @@ Status: **Implemented & Verified**
 
 * **Purpose**: Retrieve real-time dashboard analytics metrics for total employees, total tasks, pending tasks, in-progress tasks, completed tasks, and overdue tasks.
 * **Authentication Requirement**: Any authenticated user (`Authorization: Bearer <access_token>`).
-* **Role Behavior**:
-  * **Admin**: Returns system-wide metrics across all employees and tasks.
-  * **Employee**: Returns personal workload metrics for tasks assigned to the authenticated user.
+* **Role Behavior & Security Isolation**:
+  * **Admin**: Returns system-wide metrics across all employees and tasks, including `total_employees`.
+  * **Employee**: Returns personal workload metrics for tasks assigned to the authenticated user. Excludes `total_employees` (`null` or omitted) to prevent exposing organization size.
 * **Calculation Rules**:
-  * `total_employees`: Total count of active users in database where `role == "employee"` and `is_active == True`.
-  * `total_tasks`: Count of tasks within the user's role scope.
+  * `total_tasks`: Count of tasks within user role scope.
   * `pending_tasks`: Count of tasks where `status == "Pending"`.
   * `in_progress_tasks`: Count of tasks where `status == "In Progress"`.
   * `completed_tasks`: Count of tasks where `status == "Completed"`.
   * `overdue_tasks`: Count of tasks where `status != "Completed"` and `due_date < current_date`.
+  * `total_employees` (Admin Only): Count of active users with `role == "employee"`.
 
 ---
 
-## 📡 Request & Response Payload
+## 📡 Request & Response Payloads
 
-### Request Header
-```http
-GET /api/dashboard/stats HTTP/1.1
-Host: localhost:8000
-Authorization: Bearer <access_token>
-```
-
-### Response (HTTP 200 OK)
+### 1. Admin Response (HTTP 200 OK)
 ```json
 {
-  "total_employees": 5,
   "total_tasks": 12,
   "pending_tasks": 4,
   "in_progress_tasks": 5,
   "completed_tasks": 2,
-  "overdue_tasks": 1
+  "overdue_tasks": 1,
+  "total_employees": 5,
+  "my_assigned_tasks": null
+}
+```
+
+### 2. Employee Response (HTTP 200 OK)
+```json
+{
+  "total_tasks": 3,
+  "pending_tasks": 1,
+  "in_progress_tasks": 1,
+  "completed_tasks": 1,
+  "overdue_tasks": 0,
+  "total_employees": null,
+  "my_assigned_tasks": 3
 }
 ```
 
