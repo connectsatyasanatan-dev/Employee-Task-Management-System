@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertCircle, Calendar, Clock, UserCheck, Loader } from "lucide-react";
+import { AlertCircle, Calendar, Clock, User, Loader, CheckCircle2 } from "lucide-react";
 import Modal from "../common/Modal";
 
 const ALLOWED_STATUSES = ["Pending", "In Progress", "Completed"];
@@ -31,6 +31,13 @@ export const TaskDetailModal = ({
 
   const currentStatus = selectedStatus || task.status;
 
+  const getInitials = (name) => {
+    if (!name) return "U";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
     setSelectedStatus(newStatus);
@@ -48,8 +55,8 @@ export const TaskDetailModal = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Task Details"
-      maxWidth="580px"
+      title="Task Overview & Details"
+      maxWidth="600px"
     >
       <div className="task-detail-container">
         {error && (
@@ -60,12 +67,17 @@ export const TaskDetailModal = ({
         )}
 
         <div className="task-detail-header">
-          <h2 className="task-detail-title">{task.title}</h2>
+          <div>
+            <span className="task-detail-id-tag">TASK #{task.id}</span>
+            <h2 className="task-detail-title">{task.title}</h2>
+          </div>
           <div className="task-detail-badges">
             <span className={`badge ${PRIORITY_CLASSES[task.priority] || "badge-secondary"}`}>
-              {task.priority} Priority
+              <span className="badge-dot" />
+              {task.priority}
             </span>
             <span className={`badge ${STATUS_CLASSES[task.status] || "badge-secondary"}`}>
+              <span className="badge-dot" />
               {task.status}
             </span>
           </div>
@@ -73,51 +85,60 @@ export const TaskDetailModal = ({
 
         {task.description ? (
           <div className="task-detail-description">
-            <h4 className="detail-section-title">Description</h4>
+            <h4 className="detail-section-title">Task Description</h4>
             <p className="description-text">{task.description}</p>
           </div>
         ) : (
-          <p className="text-muted" style={{ fontStyle: "italic", marginBottom: 16 }}>
-            No description provided for this task.
+          <p className="text-muted" style={{ fontStyle: "italic", margin: "12px 0" }}>
+            No detailed description provided for this task.
           </p>
         )}
 
         <div className="task-detail-grid">
           <div className="detail-item">
             <div className="detail-label">
-              <UserCheck size={15} />
-              <span>Assigned To</span>
+              <User size={14} />
+              <span>Assigned Employee</span>
             </div>
-            <div className="detail-value">
-              {task.assignee_name || `User #${task.assigned_to_user_id}`}
-              {task.assignee_email && (
-                <span className="detail-subvalue"> ({task.assignee_email})</span>
-              )}
+            <div className="user-profile-cell" style={{ marginTop: 4 }}>
+              <div className="table-avatar-circle small">
+                {getInitials(task.assignee_name)}
+              </div>
+              <div className="detail-value">
+                {task.assignee_name || `User #${task.assigned_to_user_id}`}
+                {task.assignee_email && (
+                  <span className="detail-subvalue"> ({task.assignee_email})</span>
+                )}
+              </div>
             </div>
           </div>
 
           <div className="detail-item">
             <div className="detail-label">
-              <Calendar size={15} />
+              <Calendar size={14} />
               <span>Start Date</span>
             </div>
-            <div className="detail-value">{task.start_date}</div>
+            <div className="detail-value" style={{ marginTop: 4 }}>
+              {task.start_date}
+            </div>
           </div>
 
           <div className="detail-item">
             <div className="detail-label">
-              <Clock size={15} />
+              <Clock size={14} />
               <span>Due Date</span>
             </div>
-            <div className="detail-value">{task.due_date}</div>
+            <div className="detail-value" style={{ marginTop: 4 }}>
+              {task.due_date}
+            </div>
           </div>
 
           <div className="detail-item">
             <div className="detail-label">
-              <Clock size={15} />
+              <Clock size={14} />
               <span>Created On</span>
             </div>
-            <div className="detail-value">
+            <div className="detail-value" style={{ marginTop: 4 }}>
               {new Date(task.created_at).toLocaleDateString()}
             </div>
           </div>
@@ -125,10 +146,11 @@ export const TaskDetailModal = ({
 
         {/* Quick Status Update Selector */}
         <div className="status-update-box">
-          <label htmlFor="modal-status-select" className="form-label">
-            Update Task Status
+          <label htmlFor="modal-status-select" className="form-label" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <CheckCircle2 size={15} />
+            <span>Update Workflow Status</span>
           </label>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
             <select
               id="modal-status-select"
               className="form-select"

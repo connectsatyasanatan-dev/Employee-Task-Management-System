@@ -6,6 +6,13 @@ export const EmployeeTable = ({
   onEdit,
   onToggleStatus,
 }) => {
+  const getInitials = (name) => {
+    if (!name) return "E";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   if (loading) {
     return (
       <div className="card">
@@ -60,9 +67,14 @@ export const EmployeeTable = ({
             {employees.map((employee) => (
               <tr key={employee.id}>
                 <td>
-                  <div className="employee-name-cell">
-                    <span className="emp-name-text">{employee.name}</span>
-                    <span className="emp-id-sub">ID: #{employee.id}</span>
+                  <div className="employee-profile-cell">
+                    <div className="table-avatar-circle">
+                      {getInitials(employee.name)}
+                    </div>
+                    <div className="employee-name-cell">
+                      <span className="emp-name-text">{employee.name}</span>
+                      <span className="emp-id-sub">EMP #{employee.id}</span>
+                    </div>
                   </div>
                 </td>
                 <td>
@@ -72,7 +84,7 @@ export const EmployeeTable = ({
                       <span>{employee.email}</span>
                     </div>
                     {employee.phone && (
-                      <div className="cell-sub-row text-muted">
+                      <div className="cell-sub-row text-muted" style={{ marginTop: 2 }}>
                         <Phone size={13} className="cell-icon" />
                         <span>{employee.phone}</span>
                       </div>
@@ -97,6 +109,7 @@ export const EmployeeTable = ({
                       employee.is_active ? "badge-success" : "badge-secondary"
                     }`}
                   >
+                    <span className="badge-dot" />
                     {employee.is_active ? "Active" : "Inactive"}
                   </span>
                 </td>
@@ -109,7 +122,7 @@ export const EmployeeTable = ({
                       title="Edit employee details"
                       aria-label={`Edit ${employee.name}`}
                     >
-                      <Edit2 size={16} />
+                      <Edit2 size={15} />
                     </button>
 
                     <button
@@ -123,7 +136,7 @@ export const EmployeeTable = ({
                         employee.is_active ? "Deactivate" : "Activate"
                       } ${employee.name}`}
                     >
-                      {employee.is_active ? <UserX size={16} /> : <UserCheck size={16} />}
+                      {employee.is_active ? <UserX size={15} /> : <UserCheck size={15} />}
                     </button>
                   </div>
                 </td>
@@ -138,15 +151,21 @@ export const EmployeeTable = ({
         {employees.map((employee) => (
           <div key={employee.id} className="mobile-employee-card">
             <div className="card-header-compact">
-              <div>
-                <h3 className="emp-card-name">{employee.name}</h3>
-                <span className="emp-card-title">{employee.designation || "Employee"}</span>
+              <div className="employee-profile-cell">
+                <div className="table-avatar-circle">
+                  {getInitials(employee.name)}
+                </div>
+                <div>
+                  <h3 className="emp-card-name">{employee.name}</h3>
+                  <span className="emp-card-title">{employee.designation || "Employee"}</span>
+                </div>
               </div>
               <span
                 className={`badge ${
                   employee.is_active ? "badge-success" : "badge-secondary"
                 }`}
               >
+                <span className="badge-dot" />
                 {employee.is_active ? "Active" : "Inactive"}
               </span>
             </div>

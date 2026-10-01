@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { AlertCircle, Briefcase, Lock, Mail } from "lucide-react";
+import { AlertCircle, Layers, Lock, Mail, ShieldCheck, User } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 export const LoginPage = () => {
@@ -47,16 +47,22 @@ export const LoginPage = () => {
     }
   };
 
+  const handleQuickFill = (demoEmail, demoPassword) => {
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+    setError("");
+  };
+
   return (
     <div className="login-page-container">
       <div className="login-card">
         <div className="login-header">
           <div className="login-icon-wrapper">
-            <Briefcase size={28} />
+            <Layers size={28} />
           </div>
-          <h1 className="login-title">Employee Portal</h1>
+          <h1 className="login-title">TaskFlow Enterprise</h1>
           <p className="login-subtitle">
-            Sign in to access your task dashboard
+            Sign in to access your organization's workspace
           </p>
         </div>
 
@@ -70,7 +76,7 @@ export const LoginPage = () => {
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label htmlFor="email" className="form-label">
-              Email Address
+              Work Email Address
             </label>
             <div className="input-wrapper">
               <Mail size={18} className="input-icon" />
@@ -78,7 +84,7 @@ export const LoginPage = () => {
                 id="email"
                 type="email"
                 className="form-input"
-                placeholder="name@company.com"
+                placeholder="name@organization.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -89,7 +95,7 @@ export const LoginPage = () => {
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              Password
+              Account Password
             </label>
             <div className="input-wrapper">
               <Lock size={18} className="input-icon" />
@@ -108,7 +114,7 @@ export const LoginPage = () => {
 
           <button
             type="submit"
-            className="btn-primary"
+            className="btn-primary login-submit-btn"
             disabled={loading}
           >
             {loading ? (
@@ -117,13 +123,38 @@ export const LoginPage = () => {
                   className="spinner"
                   style={{ width: 18, height: 18, borderWidth: 2 }}
                 />
-                <span>Signing in...</span>
+                <span>Authenticating...</span>
               </>
             ) : (
-              <span>Sign In</span>
+              <span>Sign In to Dashboard</span>
             )}
           </button>
         </form>
+
+        {/* Quick Test Login Helper */}
+        <div className="login-quick-demo">
+          <span className="demo-helper-title">Quick Demo Login</span>
+          <div className="demo-pills-row">
+            <button
+              type="button"
+              className="demo-pill-btn"
+              onClick={() => handleQuickFill("admin@organization.com", "AdminPass123!")}
+              title="Fill Admin credentials"
+            >
+              <ShieldCheck size={14} className="text-primary" />
+              <span>Admin Demo</span>
+            </button>
+            <button
+              type="button"
+              className="demo-pill-btn"
+              onClick={() => handleQuickFill("sarah.chen@techcorp.io", "Pass#Chen2026")}
+              title="Fill Employee credentials"
+            >
+              <User size={14} className="text-muted" />
+              <span>Employee Demo</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

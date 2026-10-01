@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AlertCircle, Loader } from "lucide-react";
+import { AlertCircle, Briefcase, Building, KeyRound, Loader, Mail, Phone, User } from "lucide-react";
 import Modal from "../common/Modal";
 
 export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, loading = false, error = "" }) => {
@@ -71,11 +71,11 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
       isOpen={isOpen}
       onClose={onClose}
       title={isEdit ? `Edit Employee: ${employee?.name}` : "Add New Employee"}
-      maxWidth="560px"
+      maxWidth="580px"
     >
       <form onSubmit={handleSubmit} noValidate>
         {error && (
-          <div className="alert-danger" style={{ marginBottom: 16 }}>
+          <div className="alert-danger" style={{ marginBottom: 20 }}>
             <AlertCircle size={18} />
             <span>{error}</span>
           </div>
@@ -85,7 +85,9 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
           {/* Name Field */}
           <div className="form-group">
             <label htmlFor="emp-name" className="form-label">
-              Full Name <span className="required-star">*</span>
+              <User size={14} className="form-label-icon" />
+              <span>Full Name</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="emp-name"
@@ -103,7 +105,9 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
           {/* Email Field */}
           <div className="form-group">
             <label htmlFor="emp-email" className="form-label">
-              Email Address <span className="required-star">*</span>
+              <Mail size={14} className="form-label-icon" />
+              <span>Email Address</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="emp-email"
@@ -122,7 +126,9 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
           {!isEdit && (
             <div className="form-group full-width">
               <label htmlFor="emp-password" className="form-label">
-                Initial Password <span className="required-star">*</span>
+                <KeyRound size={14} className="form-label-icon" />
+                <span>Initial Password</span>
+                <span className="required-star">*</span>
               </label>
               <input
                 id="emp-password"
@@ -143,7 +149,9 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
           {/* Phone Field */}
           <div className="form-group">
             <label htmlFor="emp-phone" className="form-label">
-              Phone Number <span className="required-star">*</span>
+              <Phone size={14} className="form-label-icon" />
+              <span>Phone Number</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="emp-phone"
@@ -161,7 +169,9 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
           {/* Department Field */}
           <div className="form-group">
             <label htmlFor="emp-dept" className="form-label">
-              Department <span className="required-star">*</span>
+              <Building size={14} className="form-label-icon" />
+              <span>Department</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="emp-dept"
@@ -181,7 +191,9 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
           {/* Designation Field */}
           <div className="form-group full-width">
             <label htmlFor="emp-desg" className="form-label">
-              Designation / Job Title <span className="required-star">*</span>
+              <Briefcase size={14} className="form-label-icon" />
+              <span>Designation / Job Title</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="emp-desg"

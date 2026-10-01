@@ -1,4 +1,4 @@
-import { Eye, Edit2, Trash2, Calendar, UserCheck, CheckSquare } from "lucide-react";
+import { Eye, Edit2, Trash2, Calendar, User, CheckSquare } from "lucide-react";
 
 const ALLOWED_STATUSES = ["Pending", "In Progress", "Completed"];
 
@@ -23,6 +23,13 @@ export const TaskTable = ({
   onDelete,
   onStatusChange,
 }) => {
+  const getInitials = (name) => {
+    if (!name) return "U";
+    const parts = name.trim().split(" ");
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   if (loading) {
     return (
       <div className="card">
@@ -65,7 +72,7 @@ export const TaskTable = ({
         <table className="data-table" aria-label="Task management table">
           <thead>
             <tr>
-              <th scope="col">Task Title</th>
+              <th scope="col">Task Details</th>
               <th scope="col">Assignee</th>
               <th scope="col">Priority</th>
               <th scope="col">Status</th>
@@ -80,7 +87,7 @@ export const TaskTable = ({
               <tr key={task.id}>
                 <td>
                   <div className="task-title-cell">
-                    <span className="task-title-text" onClick={() => onView(task)} style={{ cursor: "pointer" }}>
+                    <span className="task-title-text clickable" onClick={() => onView(task)}>
                       {task.title}
                     </span>
                     {task.description && (
@@ -89,13 +96,18 @@ export const TaskTable = ({
                   </div>
                 </td>
                 <td>
-                  <div className="user-cell">
-                    <UserCheck size={14} className="cell-icon" />
-                    <span>{task.assignee_name || `User #${task.assigned_to_user_id}`}</span>
+                  <div className="user-profile-cell">
+                    <div className="table-avatar-circle small">
+                      {getInitials(task.assignee_name)}
+                    </div>
+                    <span className="user-name-text">
+                      {task.assignee_name || `User #${task.assigned_to_user_id}`}
+                    </span>
                   </div>
                 </td>
                 <td>
                   <span className={`badge ${PRIORITY_CLASSES[task.priority] || "badge-secondary"}`}>
+                    <span className="badge-dot" />
                     {task.priority}
                   </span>
                 </td>
@@ -128,7 +140,7 @@ export const TaskTable = ({
                       title="View task details"
                       aria-label={`View ${task.title}`}
                     >
-                      <Eye size={16} />
+                      <Eye size={15} />
                     </button>
 
                     {isAdmin && (
@@ -140,7 +152,7 @@ export const TaskTable = ({
                           title="Edit task details"
                           aria-label={`Edit ${task.title}`}
                         >
-                          <Edit2 size={16} />
+                          <Edit2 size={15} />
                         </button>
 
                         <button
@@ -150,7 +162,7 @@ export const TaskTable = ({
                           title="Delete task"
                           aria-label={`Delete ${task.title}`}
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={15} />
                         </button>
                       </>
                     )}
@@ -176,6 +188,7 @@ export const TaskTable = ({
                 </span>
               </div>
               <span className={`badge ${PRIORITY_CLASSES[task.priority] || "badge-secondary"}`}>
+                <span className="badge-dot" />
                 {task.priority}
               </span>
             </div>
@@ -186,7 +199,7 @@ export const TaskTable = ({
 
             <div className="card-body-compact">
               <div className="card-info-row">
-                <span>Status:</span>
+                <span className="text-muted">Status:</span>
                 <select
                   className={`badge-select ${STATUS_CLASSES[task.status] || "badge-secondary"}`}
                   value={task.status}

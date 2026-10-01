@@ -1,47 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-  /* Color Palette - Polished Light Theme */
+  /* Color Palette - Modern Enterprise Light Theme */
   --bg-body: #f8fafc;
   --bg-surface: #ffffff;
   --bg-subtle: #f1f5f9;
+  --bg-hover: #f8fafc;
+  --bg-active: #e2e8f0;
   
   --sidebar-bg: #0f172a;
+  --sidebar-surface: #1e293b;
   --sidebar-text: #94a3b8;
   --sidebar-text-active: #ffffff;
-  --sidebar-hover: #1e293b;
-  --sidebar-border: #334155;
+  --sidebar-hover: rgba(255, 255, 255, 0.08);
+  --sidebar-border: #1e293b;
+  --sidebar-active-bg: #2563eb;
 
   --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --primary-light: #eff6ff;
   --primary-border: #bfdbfe;
+  --primary-glow: rgba(37, 99, 235, 0.15);
 
   --text-main: #0f172a;
   --text-muted: #64748b;
   --text-subtle: #94a3b8;
 
   --border-color: #e2e8f0;
-  --border-focus: #3b82f6;
+  --border-focus: #2563eb;
+  --border-subtle: #f1f5f9;
 
   --danger: #dc2626;
+  --danger-hover: #b91c1c;
   --danger-light: #fef2f2;
   --danger-border: #fecaca;
 
   --success: #16a34a;
+  --success-hover: #15803d;
   --success-light: #f0fdf4;
+  --success-border: #bbf7d0;
 
   --warning: #d97706;
+  --warning-hover: #b45309;
   --warning-light: #fffbeb;
+  --warning-border: #fde68a;
+
+  --info: #0284c7;
+  --info-light: #f0f9ff;
+  --info-border: #bae6fd;
 
   /* Typography & Spacing */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
 }
 
 *, *::before, *::after {
@@ -56,6 +77,7 @@ html, body {
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
 }
 
@@ -68,10 +90,12 @@ html, body {
 a {
   color: var(--primary);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 a:hover {
-  text-decoration: underline;
+  color: var(--primary-hover);
+  text-decoration: none;
 }
 
 button {
@@ -80,10 +104,30 @@ button {
 }
 
 input, button, select, textarea {
-  font-size: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
 }
 
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+}
+
+/* Custom Scrollbar for sleek modern feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

@@ -1,9 +1,27 @@
 import { useState } from "react";
-import { AlertCircle, Loader } from "lucide-react";
+import {
+  AlertCircle,
+  Calendar,
+  CheckCircle2,
+  FileText,
+  Flag,
+  Loader,
+  Type,
+  User,
+} from "lucide-react";
 import Modal from "../common/Modal";
 
-const ALLOWED_PRIORITIES = ["Low", "Medium", "High"];
-const ALLOWED_STATUSES = ["Pending", "In Progress", "Completed"];
+const ALLOWED_PRIORITIES = [
+  { value: "Low", label: "Low Priority", color: "#64748b" },
+  { value: "Medium", label: "Medium Priority", color: "#d97706" },
+  { value: "High", label: "High Priority", color: "#dc2626" },
+];
+
+const ALLOWED_STATUSES = [
+  { value: "Pending", label: "Pending" },
+  { value: "In Progress", label: "In Progress" },
+  { value: "Completed", label: "Completed" },
+];
 
 export const TaskModal = ({
   isOpen,
@@ -86,7 +104,7 @@ export const TaskModal = ({
     >
       <form onSubmit={handleSubmit} noValidate>
         {error && (
-          <div className="alert-danger" style={{ marginBottom: 16 }}>
+          <div className="alert-danger" style={{ marginBottom: 20 }}>
             <AlertCircle size={18} />
             <span>{error}</span>
           </div>
@@ -96,7 +114,9 @@ export const TaskModal = ({
           {/* Title Field */}
           <div className="form-group full-width">
             <label htmlFor="task-title" className="form-label">
-              Task Title <span className="required-star">*</span>
+              <Type size={14} className="form-label-icon" />
+              <span>Task Title</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="task-title"
@@ -114,7 +134,8 @@ export const TaskModal = ({
           {/* Description Field */}
           <div className="form-group full-width">
             <label htmlFor="task-desc" className="form-label">
-              Description (Optional)
+              <FileText size={14} className="form-label-icon" />
+              <span>Description (Optional)</span>
             </label>
             <textarea
               id="task-desc"
@@ -130,7 +151,9 @@ export const TaskModal = ({
           {/* Assignee Selector */}
           <div className="form-group">
             <label htmlFor="task-assignee" className="form-label">
-              Assignee <span className="required-star">*</span>
+              <User size={14} className="form-label-icon" />
+              <span>Assignee</span>
+              <span className="required-star">*</span>
             </label>
             <select
               id="task-assignee"
@@ -143,7 +166,7 @@ export const TaskModal = ({
               <option value="">Select Employee...</option>
               {employees.map((emp) => (
                 <option key={emp.id} value={emp.id}>
-                  {emp.name} ({emp.email})
+                  {emp.name} ({emp.department || emp.email})
                 </option>
               ))}
             </select>
@@ -155,7 +178,9 @@ export const TaskModal = ({
           {/* Priority Field */}
           <div className="form-group">
             <label htmlFor="task-priority" className="form-label">
-              Priority <span className="required-star">*</span>
+              <Flag size={14} className="form-label-icon" />
+              <span>Priority</span>
+              <span className="required-star">*</span>
             </label>
             <select
               id="task-priority"
@@ -165,28 +190,8 @@ export const TaskModal = ({
               disabled={loading}
             >
               {ALLOWED_PRIORITIES.map((p) => (
-                <option key={p} value={p}>
-                  {p} Priority
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Status Field */}
-          <div className="form-group">
-            <label htmlFor="task-status" className="form-label">
-              Status <span className="required-star">*</span>
-            </label>
-            <select
-              id="task-status"
-              className="form-select"
-              value={formData.status}
-              onChange={(e) => handleChange("status", e.target.value)}
-              disabled={loading}
-            >
-              {ALLOWED_STATUSES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
+                <option key={p.value} value={p.value}>
+                  {p.label}
                 </option>
               ))}
             </select>
@@ -195,7 +200,9 @@ export const TaskModal = ({
           {/* Start Date */}
           <div className="form-group">
             <label htmlFor="task-start" className="form-label">
-              Start Date <span className="required-star">*</span>
+              <Calendar size={14} className="form-label-icon" />
+              <span>Start Date</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="task-start"
@@ -214,7 +221,9 @@ export const TaskModal = ({
           {/* Due Date */}
           <div className="form-group">
             <label htmlFor="task-due" className="form-label">
-              Due Date <span className="required-star">*</span>
+              <Calendar size={14} className="form-label-icon" />
+              <span>Due Date</span>
+              <span className="required-star">*</span>
             </label>
             <input
               id="task-due"
@@ -228,6 +237,28 @@ export const TaskModal = ({
             {fieldErrors.due_date && (
               <span className="field-error-text">{fieldErrors.due_date}</span>
             )}
+          </div>
+
+          {/* Status Field */}
+          <div className="form-group full-width">
+            <label htmlFor="task-status" className="form-label">
+              <CheckCircle2 size={14} className="form-label-icon" />
+              <span>Workflow Status</span>
+              <span className="required-star">*</span>
+            </label>
+            <select
+              id="task-status"
+              className="form-select"
+              value={formData.status}
+              onChange={(e) => handleChange("status", e.target.value)}
+              disabled={loading}
+            >
+              {ALLOWED_STATUSES.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -259,3 +290,4 @@ export const TaskModal = ({
 };
 
 export default TaskModal;
+
