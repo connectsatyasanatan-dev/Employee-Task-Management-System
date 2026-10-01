@@ -47,6 +47,7 @@ All notable changes to this project are documented in this file.
   - Task Detail View Modal with inline status update dropdown.
   - Admin task creation/editing and confirmation modal for permanent task deletion (`DELETE /api/tasks/{id}`).
 - Reusable UI component library (`Modal.jsx`, `ConfirmDialog.jsx`, `Pagination.jsx`).
+- Implemented route-level lazy loading (`React.lazy` + `Suspense`) and Vite manual chunk code-splitting (`vendor-react`, `vendor-charts`, `vendor-icons`, `vendor-api`) reducing individual bundle sizes below 250kB.
 
 ---
 
