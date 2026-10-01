@@ -30,6 +30,7 @@ Welcome to the central documentation hub for the Employee Task Management System
 * **[Local Setup Guide](file:///d:/Task-Management/docs/development/local-setup.md)**: Step-by-step setup instructions for backend and frontend local development.
 * **[Environment Variables Reference](file:///d:/Task-Management/docs/development/environment-variables.md)**: Configuration parameters for backend and frontend environments.
 * **[Testing & Manual Verification](file:///d:/Task-Management/docs/development/testing.md)**: Verification steps for API routes and authentication flows.
+* **[Test Accounts & Sample Data](file:///d:/Task-Management/docs/development/test-credentials.md)**: Ready-to-use testing credentials, employee profiles, and sample task inventory.
 * **[Troubleshooting & Recovery Runbook](file:///d:/Task-Management/docs/operations/troubleshooting.md)**: Diagnosing startup errors, database locks, CORS issues, and 401/403 status codes.
 * **[Security Checklist](file:///d:/Task-Management/docs/operations/security-checklist.md)**: Security verification checklist and compliance guidelines.
 
