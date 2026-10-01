@@ -1,0 +1,132 @@
+import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { AlertCircle, Briefcase, Lock, Mail } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
+
+export const LoginPage = () => {
+  const { login, isAuthenticated, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  if (authLoading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email.trim() || !password) {
+      setError("Please fill in both email and password.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await login(email.trim(), password);
+      navigate("/dashboard", { replace: true });
+    } catch (err) {
+      const message =
+        err.response?.data?.detail || "Invalid email or password. Please try again.";
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="login-page-container">
+      <div className="login-card">
+        <div className="login-header">
+          <div className="login-icon-wrapper">
+            <Briefcase size={28} />
+          </div>
+          <h1 className="login-title">Employee Portal</h1>
+          <p className="login-subtitle">
+            Sign in to access your task dashboard
+          </p>
+        </div>
+
+        {error && (
+          <div className="alert-danger" role="alert">
+            <AlertCircle size={18} />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Email Address
+            </label>
+            <div className="input-wrapper">
+              <Mail size={18} className="input-icon" />
+              <input
+                id="email"
+                type="email"
+                className="form-input"
+                placeholder="name@company.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <div className="input-wrapper">
+              <Lock size={18} className="input-icon" />
+              <input
+                id="password"
+                type="password"
+                className="form-input"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="btn-primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <div
+                  className="spinner"
+                  style={{ width: 18, height: 18, borderWidth: 2 }}
+                />
+                <span>Signing in...</span>
+              </>
+            ) : (
+              <span>Sign In</span>
+            )}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;

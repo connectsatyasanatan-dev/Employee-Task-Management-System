@@ -2,37 +2,48 @@
 
 ## 🛠️ Stack & Current Implementation Status
 
-* **Build Tool**: Vite 6.2+
-* **UI Framework**: React 19.0+
-* **HTTP Client**: Axios 1.7+
-* **Styling**: Vanilla CSS (`App.css`, `index.css`)
+* **Build Tool**: Vite 8.3+
+* **UI Framework**: React 19.2+
+* **Routing**: React Router DOM 7.18+
+* **HTTP Client**: Axios 1.20+
+* **Icons**: Lucide React 1.48+
+* **Charts**: Recharts 3.10+
+* **Theme**: Polished Light Theme Design System
 
 ---
 
-## 🔌 API Client Configuration
+## 📁 Source Code Organization (`frontend/src/`)
 
-The frontend API client is initialized in [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js):
-
-```javascript
-import axios from "axios";
-
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-export default apiClient;
+```text
+frontend/src/
+├── api/
+│   ├── client.js             # Shared Axios instance with Bearer token & 401 refresh interceptors
+│   ├── authApi.js            # Login, logout, refresh, getMe API service
+│   ├── employeeApi.js        # Employee CRUD & status API service
+│   ├── taskApi.js            # Task CRUD, filters, & status API service
+│   └── dashboardApi.js       # Dashboard analytics stats API service
+├── context/
+│   └── AuthContext.jsx       # Auth state provider (in-memory token, user, login, logout, session restoration)
+├── hooks/
+│   └── useAuth.js            # Custom hook consuming AuthContext
+├── components/
+│   └── layout/
+│       ├── ProtectedRoute.jsx # Authentication & role guard wrapper component
+│       └── AppLayout.jsx      # Light theme layout shell with header, sidebar, user profile badge, & outlet
+└── pages/
+    ├── LoginPage.jsx         # Light-theme login card view
+    ├── DashboardPage.jsx     # Dashboard view placeholder
+    ├── EmployeesPage.jsx     # Employee directory view placeholder
+    ├── TasksPage.jsx         # Task management view placeholder
+    └── NotFoundPage.jsx      # 404 Fallback page view
 ```
 
 ---
 
-## 🔍 Current UI State & Planned Roadmap
+## 🔒 Authentication & Token Handling
 
-* **Current Implementation**: [`App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) currently displays a minimal placeholder component that performs a single `GET /health` API connection test.
-* **Planned Frontend Work**:
-  1. Add `react-router-dom` for client-side page routing.
-  2. Implement `AuthContext` to manage JWT access tokens and authenticated user state.
-  3. Configure Axios request interceptor to attach `Authorization: Bearer <token>` and response interceptor to auto-call `/api/auth/refresh` on HTTP 401.
-  4. Build Login view, Admin Dashboard, Employee Management UI, and Task Management Board.
+1. **In-Memory Token Storage**: Access tokens are kept exclusively in JavaScript memory (`setInMemoryToken` helper & `useState` in `AuthContext.jsx`). Tokens are never written to `localStorage` or `sessionStorage`.
+2. **Session Restoration**: On initial application load, `AuthContext` calls `authApi.refresh()` to restore session data via `task_refresh` HttpOnly cookie.
+3. **Axios Interceptors**:
+   - **Request Interceptor**: Automatically attaches `Authorization: Bearer <in_memory_token>` header on API requests.
+   - **Response Interceptor**: Intercepts HTTP 401 Unauthorized responses (excluding login/refresh routes), invokes `/api/auth/refresh` to obtain a new access token, updates in-memory token, and retries the original request seamlessly.

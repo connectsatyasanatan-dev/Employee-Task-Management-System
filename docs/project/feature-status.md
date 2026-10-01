@@ -21,8 +21,8 @@ This document tracks all features across the system using an evidence-based inve
 | `TASK-001` | Task Database Model | All Users | **Implemented & Verified** | Code Inspection | [`backend/app/models/task.py`](file:///d:/Task-Management/backend/app/models/task.py) |
 | `TASK-002` | Task CRUD & Assignment API | Admin/Employee | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/tasks.py`](file:///d:/Task-Management/backend/app/api/routes/tasks.py) |
 | `DASH-001` | Dashboard Statistics API | All Users | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/dashboard.py`](file:///d:/Task-Management/backend/app/api/routes/dashboard.py) |
-| `UI-001` | Frontend Axios Client | All Users | **Implemented & Verified** | Code Inspection | [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js) |
-| `UI-002` | Frontend Routing & Pages | All Users | **Planned (Not Implemented)** | Code Inspection | [`frontend/src/App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) (Placeholder only) |
+| `UI-001` | Frontend Axios Client & Interceptors | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js) |
+| `UI-002` | Frontend Routing & App Shell | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) |
 
 ---
 

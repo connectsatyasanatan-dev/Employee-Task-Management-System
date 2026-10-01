@@ -24,6 +24,13 @@ All notable changes to this project are documented in this file.
   - `DELETE /api/tasks/{task_id}` (Admin task deletion)
 - Implemented Dashboard Analytics API under `/api/dashboard`:
   - `GET /api/dashboard/stats` (Real-time count metrics for total employees, total tasks, pending, in-progress, completed, and overdue tasks)
+- Implemented Phase 1 Frontend Foundation under `frontend/src`:
+  - Shared Axios client with Bearer token request interceptor and 401 auto-refresh response interceptor.
+  - Dedicated API service modules (`authApi.js`, `employeeApi.js`, `taskApi.js`, `dashboardApi.js`).
+  - Global `AuthContext` provider & `useAuth` hook managing in-memory tokens, session restoration, and login/logout methods.
+  - React Router DOM 7 setup with `<ProtectedRoute>`, `<AppLayout>` responsive application shell, and role-based route guards.
+  - Polished Light Theme design system tokens (`index.css`) and responsive layout utility CSS (`App.css`).
+  - Production-ready `LoginPage` with form validation, loading states, and backend error handling.
 - Established version-controlled documentation suite under `docs/`.
 
 ---

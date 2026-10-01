@@ -1,25 +1,43 @@
-import { useEffect, useState } from "react";
-import apiClient from "./api/client";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
+import AppLayout from "./components/layout/AppLayout";
+
+import LoginPage from "./pages/LoginPage";
+import DashboardPage from "./pages/DashboardPage";
+import EmployeesPage from "./pages/EmployeesPage";
+import TasksPage from "./pages/TasksPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+import "./App.css";
 
 function App() {
-  const [apiStatus, setApiStatus] = useState("Checking API connection...");
-
-  useEffect(() => {
-    apiClient
-      .get("/health")
-      .then((response) => {
-      setApiStatus(`Backend response: ${JSON.stringify(response.data)}`);
-      })
-      .catch(() => {
-        setApiStatus("Could not connect to the backend.");
-      });
-  }, []);
-
   return (
-    <main>
-      <h1>Task Management System</h1>
-      <p>{apiStatus}</p>
-    </main>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          {/* Public Login Route */}
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Authenticated Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/tasks" element={<TasksPage />} />
+
+              {/* Admin Only Route */}
+              <Route element={<ProtectedRoute requireAdmin={true} />}>
+                <Route path="/employees" element={<EmployeesPage />} />
+              </Route>
+            </Route>
+          </Route>
+
+          {/* 404 Fallback Route */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
