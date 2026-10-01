@@ -1,14 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from datetime import datetime, timezone
+from typing import Annotated, Optional
+
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
-from typing import Annotated
-
-from fastapi import Depends
 
 from app.api.dependencies import get_current_user, require_admin
-from app.models.user import User
-from app.schemas.user import UserResponse
-
 from app.core.config import (
     COOKIE_SAMESITE,
     COOKIE_SECURE,
@@ -106,6 +103,148 @@ def login(
         token_type="bearer",
         user=UserResponse.model_validate(user),
     )
+
+
+@router.post(
+    "/refresh",
+    response_model=TokenResponse,
+    status_code=status.HTTP_200_OK,
+)
+def refresh_token(
+    response: Response,
+    task_refresh: Annotated[
+        Optional[str], Cookie(alias=REFRESH_COOKIE_NAME)
+    ] = None,
+    db: Session = Depends(get_db),
+):
+    """
+    Issue a new access token and rotate the refresh token cookie.
+    """
+    if not task_refresh:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Refresh token missing",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # 1. Hash incoming refresh token
+    token_hash = hash_refresh_token(task_refresh)
+
+    # 2. Find refresh session in database
+    statement = select(RefreshSession).where(
+        RefreshSession.token_hash == token_hash
+    )
+    session = db.scalar(statement)
+
+    if session is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid refresh token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # 3. Check if session is revoked
+    if session.revoked_at is not None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Refresh token has been revoked",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # 4. Check if session is expired
+    now = datetime.now(timezone.utc)
+    expires_at = session.expires_at
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+
+    if expires_at <= now:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Refresh token has expired",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # 5. Verify associated user is active
+    user = session.user
+    if user is None or not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This account is inactive",
+        )
+
+    # 6. Rotate refresh token: revoke current session
+    session.revoked_at = now
+
+    # 7. Create new refresh session
+    new_raw_refresh_token = create_refresh_token()
+    new_token_hash = hash_refresh_token(new_raw_refresh_token)
+
+    new_session = RefreshSession(
+        user_id=user.id,
+        token_hash=new_token_hash,
+        expires_at=get_refresh_token_expiry(),
+    )
+
+    db.add(new_session)
+    db.commit()
+
+    # 8. Set rotated refresh token cookie
+    response.set_cookie(
+        key=REFRESH_COOKIE_NAME,
+        value=new_raw_refresh_token,
+        httponly=True,
+        secure=COOKIE_SECURE,
+        samesite=COOKIE_SAMESITE,
+        max_age=REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
+        path="/api/auth",
+    )
+
+    # 9. Generate fresh access token
+    access_token = create_access_token(user.id)
+
+    return TokenResponse(
+        access_token=access_token,
+        token_type="bearer",
+        user=UserResponse.model_validate(user),
+    )
+
+
+@router.post(
+    "/logout",
+    status_code=status.HTTP_200_OK,
+)
+def logout(
+    response: Response,
+    task_refresh: Annotated[
+        Optional[str], Cookie(alias=REFRESH_COOKIE_NAME)
+    ] = None,
+    db: Session = Depends(get_db),
+):
+    """
+    Revoke the active refresh token session and clear the refresh cookie.
+    """
+    if task_refresh:
+        token_hash = hash_refresh_token(task_refresh)
+        statement = select(RefreshSession).where(
+            RefreshSession.token_hash == token_hash,
+            RefreshSession.revoked_at.is_(None),
+        )
+        session = db.scalar(statement)
+
+        if session:
+            session.revoked_at = datetime.now(timezone.utc)
+            db.commit()
+
+    # Clear refresh cookie
+    response.delete_cookie(
+        key=REFRESH_COOKIE_NAME,
+        path="/api/auth",
+        httponly=True,
+        secure=COOKIE_SECURE,
+        samesite=COOKIE_SAMESITE,
+    )
+
+    return {"message": "Successfully logged out"}
 
 
 @router.get(
