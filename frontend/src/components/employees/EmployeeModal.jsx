@@ -75,7 +75,7 @@ export const EmployeeModal = ({ isOpen, onClose, onSubmit, employee = null, load
     >
       <form onSubmit={handleSubmit} noValidate>
         {error && (
-          <div className="alert-danger" style={{ marginBottom: 20 }}>
+          <div className="alert-danger mb-4">
             <AlertCircle size={18} />
             <span>{error}</span>
           </div>

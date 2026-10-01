@@ -8,13 +8,14 @@
   --bg-hover: #f8fafc;
   --bg-active: #e2e8f0;
   
-  --sidebar-bg: #0f172a;
-  --sidebar-surface: #1e293b;
-  --sidebar-text: #94a3b8;
-  --sidebar-text-active: #ffffff;
-  --sidebar-hover: rgba(255, 255, 255, 0.08);
-  --sidebar-border: #1e293b;
-  --sidebar-active-bg: #2563eb;
+  --sidebar-bg: #ffffff;
+  --sidebar-surface: #f8fafc;
+  --sidebar-text: #64748b;
+  --sidebar-text-active: #2563eb;
+  --sidebar-hover: #f1f5f9;
+  --sidebar-border: #e2e8f0;
+  --sidebar-active-bg: #eff6ff;
+  --sidebar-active-border: #bfdbfe;
 
   --primary: #2563eb;
   --primary-hover: #1d4ed8;

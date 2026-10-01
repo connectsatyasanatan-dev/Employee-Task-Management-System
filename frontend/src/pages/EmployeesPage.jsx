@@ -210,7 +210,7 @@ export const EmployeesPage = () => {
 
       {/* Success Notification Toast */}
       {toast && (
-        <div className="alert-success" role="status" style={{ marginBottom: 20 }}>
+        <div className="alert-success mb-4" role="status">
           <CheckCircle2 size={18} />
           <span>{toast}</span>
         </div>
@@ -218,9 +218,9 @@ export const EmployeesPage = () => {
 
       {/* Error Alert Box */}
       {error && (
-        <div className="alert-danger" role="alert" style={{ marginBottom: 20 }}>
+        <div className="alert-danger mb-4" role="alert">
           <AlertCircle size={18} />
-          <div style={{ flex: 1 }}>
+          <div className="flex-1">
             <strong>Error: </strong>
             <span>{error}</span>
           </div>
@@ -231,7 +231,7 @@ export const EmployeesPage = () => {
       )}
 
       {/* Toolbar: Search input & total count */}
-      <div className="toolbar-card card" style={{ marginBottom: 20 }}>
+      <div className="toolbar-card card mb-4">
         <div className="search-box">
           <Search size={18} className="search-icon" />
           <input

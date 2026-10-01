@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   CheckSquare,
@@ -6,24 +6,44 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  PanelLeftClose,
+  PanelLeft,
   ShieldCheck,
   User,
   Users,
   X,
-  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 
 export const AppLayout = () => {
   const { user, isAdmin, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem("sidebar_collapsed") === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("sidebar_collapsed", String(isCollapsed));
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, [isCollapsed]);
 
   const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
+    setMobileMenuOpen((prev) => !prev);
   };
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+  };
+
+  const toggleSidebarCollapse = () => {
+    setIsCollapsed((prev) => !prev);
   };
 
   // Generate 2-letter initials for user avatar
@@ -35,7 +55,7 @@ export const AppLayout = () => {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${isCollapsed ? "sidebar-is-collapsed" : ""}`}>
       {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
         <div
@@ -46,28 +66,47 @@ export const AppLayout = () => {
       )}
 
       {/* Sidebar Navigation */}
-      <aside className={`sidebar ${mobileMenuOpen ? "open" : ""}`}>
+      <aside
+        className={`sidebar ${mobileMenuOpen ? "open" : ""} ${
+          isCollapsed ? "collapsed" : ""
+        }`}
+        aria-label="Sidebar Navigation"
+      >
         <div className="sidebar-header">
-          <div className="sidebar-brand-icon">
-            <Layers size={20} />
+          <div className="sidebar-brand-wrapper">
+            <div className="sidebar-brand-icon">
+              <Layers size={20} />
+            </div>
+            {!isCollapsed && (
+              <div className="sidebar-brand-text">
+                <span className="brand-name">TaskFlow</span>
+              </div>
+            )}
           </div>
-          <div className="sidebar-brand-text">
-            <span className="brand-name">TaskFlow</span>
-          </div>
+          <button
+            type="button"
+            className="sidebar-collapse-toggle desktop-only"
+            onClick={toggleSidebarCollapse}
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isCollapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
+          </button>
         </div>
 
-        <div className="sidebar-section-label">MENU</div>
+        {!isCollapsed && <div className="sidebar-section-label">MAIN NAVIGATION</div>}
 
-        <nav className="sidebar-nav" aria-label="Main Navigation">
+        <nav className="sidebar-nav" aria-label="Main Menu">
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
               `nav-item ${isActive ? "active" : ""}`
             }
             onClick={closeMobileMenu}
+            title={isCollapsed ? "Dashboard" : undefined}
           >
-            <LayoutDashboard size={18} className="nav-icon" />
-            <span>Dashboard</span>
+            <LayoutDashboard size={19} className="nav-icon" />
+            {!isCollapsed && <span className="nav-label">Dashboard</span>}
           </NavLink>
 
           {isAdmin && (
@@ -77,9 +116,10 @@ export const AppLayout = () => {
                 `nav-item ${isActive ? "active" : ""}`
               }
               onClick={closeMobileMenu}
+              title={isCollapsed ? "Employee Directory" : undefined}
             >
-              <Users size={18} className="nav-icon" />
-              <span>Employee Directory</span>
+              <Users size={19} className="nav-icon" />
+              {!isCollapsed && <span className="nav-label">Employee Directory</span>}
             </NavLink>
           )}
 
@@ -89,24 +129,27 @@ export const AppLayout = () => {
               `nav-item ${isActive ? "active" : ""}`
             }
             onClick={closeMobileMenu}
+            title={isCollapsed ? "Task Management" : undefined}
           >
-            <CheckSquare size={18} className="nav-icon" />
-            <span>Task Management</span>
+            <CheckSquare size={19} className="nav-icon" />
+            {!isCollapsed && <span className="nav-label">Task Management</span>}
           </NavLink>
         </nav>
 
         {/* Sidebar Footer Info */}
         <div className="sidebar-footer">
-          <div className="sidebar-user-card">
+          <div className="sidebar-user-card" title={`${user?.name || "User"} (${user?.role || "employee"})`}>
             <div className="user-avatar-circle">
               {getInitials(user?.name)}
             </div>
-            <div className="user-info-text">
-              <span className="user-display-name">{user?.name || "User"}</span>
-              <span className="user-role-label">
-                {isAdmin ? "Admin Access" : "Staff Member"}
-              </span>
-            </div>
+            {!isCollapsed && (
+              <div className="user-info-text">
+                <span className="user-display-name">{user?.name || "User"}</span>
+                <span className="user-role-label">
+                  {isAdmin ? "Administrator" : "Staff Member"}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </aside>
@@ -116,15 +159,27 @@ export const AppLayout = () => {
         <header className="top-header">
           <div className="header-left">
             <button
+              type="button"
               className="mobile-menu-btn"
               onClick={toggleMobileMenu}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
+
+            <button
+              type="button"
+              className="desktop-header-collapse-btn"
+              onClick={toggleSidebarCollapse}
+              title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+              aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+            >
+              {isCollapsed ? <PanelLeft size={20} /> : <PanelLeftClose size={20} />}
+            </button>
+
             <div className="header-greeting">
               <span className="greeting-text">
-                Welcome, <strong className="greeting-name">{user?.name || "User"}</strong>
+                Welcome back, <strong className="greeting-name">{user?.name || "User"}</strong>
               </span>
             </div>
           </div>
@@ -153,13 +208,14 @@ export const AppLayout = () => {
             </div>
 
             <button
+              type="button"
               className="logout-btn"
               onClick={logout}
               aria-label="Sign out of application"
               title="Sign Out"
             >
               <LogOut size={15} />
-              <span>Logout</span>
+              <span className="logout-text">Logout</span>
             </button>
           </div>
         </header>

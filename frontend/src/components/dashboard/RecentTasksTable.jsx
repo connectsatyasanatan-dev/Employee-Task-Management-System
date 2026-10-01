@@ -93,15 +93,15 @@ export const RecentTasksTable = ({ isAdmin }) => {
         <div className="table-skeleton">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="skeleton-row">
-              <div className="skeleton-cell skeleton-text" style={{ width: "40%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "20%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "20%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "15%" }} />
+              <div className="skeleton-cell skeleton-text skeleton-w-40" />
+              <div className="skeleton-cell skeleton-text skeleton-w-20" />
+              <div className="skeleton-cell skeleton-text skeleton-w-20" />
+              <div className="skeleton-cell skeleton-text skeleton-w-15" />
             </div>
           ))}
         </div>
       ) : error ? (
-        <div className="alert-danger" style={{ margin: 16 }}>
+        <div className="alert-danger mb-4">
           <AlertCircle size={18} />
           <span>{error}</span>
           <button className="btn-retry" onClick={fetchRecentTasks}>

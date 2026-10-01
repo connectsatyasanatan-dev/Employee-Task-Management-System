@@ -89,7 +89,7 @@ export const TaskDetailModal = ({
             <p className="description-text">{task.description}</p>
           </div>
         ) : (
-          <p className="text-muted" style={{ fontStyle: "italic", margin: "12px 0" }}>
+          <p className="text-muted font-italic my-3">
             No detailed description provided for this task.
           </p>
         )}
@@ -100,7 +100,7 @@ export const TaskDetailModal = ({
               <User size={14} />
               <span>Assigned Employee</span>
             </div>
-            <div className="user-profile-cell" style={{ marginTop: 4 }}>
+            <div className="user-profile-cell mt-1">
               <div className="table-avatar-circle small">
                 {getInitials(task.assignee_name)}
               </div>
@@ -118,7 +118,7 @@ export const TaskDetailModal = ({
               <Calendar size={14} />
               <span>Start Date</span>
             </div>
-            <div className="detail-value" style={{ marginTop: 4 }}>
+            <div className="detail-value mt-1">
               {task.start_date}
             </div>
           </div>
@@ -128,7 +128,7 @@ export const TaskDetailModal = ({
               <Clock size={14} />
               <span>Due Date</span>
             </div>
-            <div className="detail-value" style={{ marginTop: 4 }}>
+            <div className="detail-value mt-1">
               {task.due_date}
             </div>
           </div>
@@ -138,7 +138,7 @@ export const TaskDetailModal = ({
               <Clock size={14} />
               <span>Created On</span>
             </div>
-            <div className="detail-value" style={{ marginTop: 4 }}>
+            <div className="detail-value mt-1">
               {new Date(task.created_at).toLocaleDateString()}
             </div>
           </div>
@@ -146,11 +146,11 @@ export const TaskDetailModal = ({
 
         {/* Quick Status Update Selector */}
         <div className="status-update-box">
-          <label htmlFor="modal-status-select" className="form-label" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <label htmlFor="modal-status-select" className="form-label">
             <CheckCircle2 size={15} />
             <span>Update Workflow Status</span>
           </label>
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <div className="flex items-center gap-2">
             <select
               id="modal-status-select"
               className="form-select"

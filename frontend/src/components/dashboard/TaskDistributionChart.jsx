@@ -45,7 +45,7 @@ export const TaskDistributionChart = ({ stats }) => {
       </div>
 
       <div className="chart-wrapper">
-        <div style={{ width: "100%", height: 240 }}>
+        <div className="chart-container-box">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie

@@ -104,7 +104,7 @@ export const TaskModal = ({
     >
       <form onSubmit={handleSubmit} noValidate>
         {error && (
-          <div className="alert-danger" style={{ marginBottom: 20 }}>
+          <div className="alert-danger mb-4">
             <AlertCircle size={18} />
             <span>{error}</span>
           </div>

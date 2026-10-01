@@ -19,12 +19,12 @@ export const EmployeeTable = ({
         <div className="table-skeleton">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="skeleton-row">
-              <div className="skeleton-cell skeleton-text" style={{ width: "25%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "25%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "15%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "15%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "10%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "10%" }} />
+              <div className="skeleton-cell skeleton-text skeleton-w-25" />
+              <div className="skeleton-cell skeleton-text skeleton-w-25" />
+              <div className="skeleton-cell skeleton-text skeleton-w-15" />
+              <div className="skeleton-cell skeleton-text skeleton-w-15" />
+              <div className="skeleton-cell skeleton-text skeleton-w-10" />
+              <div className="skeleton-cell skeleton-text skeleton-w-10" />
             </div>
           ))}
         </div>
@@ -47,7 +47,7 @@ export const EmployeeTable = ({
   }
 
   return (
-    <div className="card employee-list-card" style={{ padding: 0 }}>
+    <div className="card employee-list-card p-0">
       {/* Desktop & Tablet Table */}
       <div className="table-responsive desktop-only-table">
         <table className="data-table" aria-label="Employee directory table">
@@ -58,7 +58,7 @@ export const EmployeeTable = ({
               <th scope="col">Department</th>
               <th scope="col">Designation</th>
               <th scope="col">Status</th>
-              <th scope="col" style={{ textAlign: "right" }}>
+              <th scope="col" className="text-right">
                 Actions
               </th>
             </tr>
@@ -84,7 +84,7 @@ export const EmployeeTable = ({
                       <span>{employee.email}</span>
                     </div>
                     {employee.phone && (
-                      <div className="cell-sub-row text-muted" style={{ marginTop: 2 }}>
+                      <div className="cell-sub-row text-muted mt-1">
                         <Phone size={13} className="cell-icon" />
                         <span>{employee.phone}</span>
                       </div>
@@ -114,7 +114,7 @@ export const EmployeeTable = ({
                   </span>
                 </td>
                 <td>
-                  <div className="actions-cell" style={{ justifyContent: "flex-end" }}>
+                  <div className="actions-cell justify-end">
                     <button
                       type="button"
                       className="btn-icon"

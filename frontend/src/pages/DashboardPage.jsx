@@ -102,9 +102,9 @@ export const DashboardPage = () => {
 
       {/* Global Error State */}
       {error && (
-        <div className="alert-danger" role="alert" style={{ marginBottom: 24 }}>
+        <div className="alert-danger mb-4" role="alert">
           <AlertCircle size={20} />
-          <div style={{ flex: 1 }}>
+          <div className="flex-1">
             <strong>Dashboard Error: </strong>
             <span>{error}</span>
           </div>
@@ -119,8 +119,8 @@ export const DashboardPage = () => {
         {loading ? (
           Array.from({ length: isAdmin ? 6 : 5 }).map((_, i) => (
             <div key={i} className="stat-card skeleton-card">
-              <div className="skeleton-text" style={{ width: "50%", height: 16 }} />
-              <div className="skeleton-text" style={{ width: "30%", height: 32, marginTop: 8 }} />
+              <div className="skeleton-text skeleton-w-50 skeleton-cell" />
+              <div className="skeleton-text skeleton-w-30 skeleton-cell mt-2" />
             </div>
           ))
         ) : (

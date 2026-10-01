@@ -36,12 +36,12 @@ export const TaskTable = ({
         <div className="table-skeleton">
           {[1, 2, 3, 4, 5].map((i) => (
             <div key={i} className="skeleton-row">
-              <div className="skeleton-cell skeleton-text" style={{ width: "30%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "20%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "15%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "15%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "10%" }} />
-              <div className="skeleton-cell skeleton-text" style={{ width: "10%" }} />
+              <div className="skeleton-cell skeleton-text skeleton-w-30" />
+              <div className="skeleton-cell skeleton-text skeleton-w-20" />
+              <div className="skeleton-cell skeleton-text skeleton-w-15" />
+              <div className="skeleton-cell skeleton-text skeleton-w-15" />
+              <div className="skeleton-cell skeleton-text skeleton-w-10" />
+              <div className="skeleton-cell skeleton-text skeleton-w-10" />
             </div>
           ))}
         </div>
@@ -66,7 +66,7 @@ export const TaskTable = ({
   }
 
   return (
-    <div className="card task-list-card" style={{ padding: 0 }}>
+    <div className="card task-list-card p-0">
       {/* Desktop Table */}
       <div className="table-responsive desktop-only-table">
         <table className="data-table" aria-label="Task management table">
@@ -77,7 +77,7 @@ export const TaskTable = ({
               <th scope="col">Priority</th>
               <th scope="col">Status</th>
               <th scope="col">Due Date</th>
-              <th scope="col" style={{ textAlign: "right" }}>
+              <th scope="col" className="text-right">
                 Actions
               </th>
             </tr>
@@ -132,7 +132,7 @@ export const TaskTable = ({
                   </div>
                 </td>
                 <td>
-                  <div className="actions-cell" style={{ justifyContent: "flex-end" }}>
+                  <div className="actions-cell justify-end">
                     <button
                       type="button"
                       className="btn-icon"

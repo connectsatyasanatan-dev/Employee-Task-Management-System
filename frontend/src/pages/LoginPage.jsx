@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { AlertCircle, Layers, Lock, Mail, ShieldCheck, User } from "lucide-react";
+import { AlertCircle, Layers, Loader, Lock, Mail, ShieldCheck, User } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 export const LoginPage = () => {
@@ -119,10 +119,7 @@ export const LoginPage = () => {
           >
             {loading ? (
               <>
-                <div
-                  className="spinner"
-                  style={{ width: 18, height: 18, borderWidth: 2 }}
-                />
+                <Loader size={16} className="spin" />
                 <span>Authenticating...</span>
               </>
             ) : (
