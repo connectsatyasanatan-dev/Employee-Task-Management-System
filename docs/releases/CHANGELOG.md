@@ -31,6 +31,12 @@ All notable changes to this project are documented in this file.
   - React Router DOM 7 setup with `<ProtectedRoute>`, `<AppLayout>` responsive application shell, and role-based route guards.
   - Polished Light Theme design system tokens (`index.css`) and responsive layout utility CSS (`App.css`).
   - Production-ready `LoginPage` with form validation, loading states, and backend error handling.
+- Implemented Dashboard UI phase (`DashboardPage.jsx`, `StatCard.jsx`, `TaskDistributionChart.jsx`, `RecentTasksTable.jsx`):
+  - Role-aware metrics grid isolating Admin (`total_employees`, `total_tasks`) and Employee views.
+  - Recharts task distribution pie chart with accessible textual summary & status badges.
+  - Role-scoped recent 5 tasks table fetched via centralized `taskApi.js`.
+  - Loading skeleton states, empty states, and user-recoverable retry error handling.
+  - Responsive reflows for desktop (1440px/1024px), tablet (768px), and mobile (375px) viewports.
 - Established version-controlled documentation suite under `docs/`.
 
 ---

@@ -23,6 +23,7 @@ This document tracks all features across the system using an evidence-based inve
 | `DASH-001` | Dashboard Statistics API | All Users | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/dashboard.py`](file:///d:/Task-Management/backend/app/api/routes/dashboard.py) |
 | `UI-001` | Frontend Axios Client & Interceptors | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js) |
 | `UI-002` | Frontend Routing & App Shell | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) |
+| `UI-003` | Role-Aware Dashboard UI & Charts | All Users | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/DashboardPage.jsx`](file:///d:/Task-Management/frontend/src/pages/DashboardPage.jsx) |
 
 ---
 

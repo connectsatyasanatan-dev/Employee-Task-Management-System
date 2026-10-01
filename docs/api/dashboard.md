@@ -56,3 +56,25 @@ Status: **Implemented & Verified**
 ## ⚠️ Error Responses
 
 * `401 Unauthorized`: Missing or invalid Bearer access token.
+
+---
+
+## 💻 Frontend UI Integration Details
+
+* **Component**: [`frontend/src/pages/DashboardPage.jsx`](file:///d:/Task-Management/frontend/src/pages/DashboardPage.jsx)
+* **Service Method**: `dashboardApi.getDashboardStats()`
+* **Role Handling**:
+  * Reads `user.role` from `AuthContext` via `useAuth()`.
+  * Renders `Total Employees` stat card ONLY if `isAdmin === true` and `total_employees` is a non-null integer.
+  * Employee view shows "My Assigned Tasks" card instead of "Total Tasks", hiding employee headcount.
+* **Task Distribution Chart**:
+  * Renders a responsive Recharts `<PieChart>` aggregating `pending_tasks`, `in_progress_tasks`, and `completed_tasks`.
+  * Includes an accessible textual summary breakdown alongside custom legend indicators for color-independent accessibility.
+* **Recent Tasks Integration**:
+  * Utilizes `taskApi.getTasks({ page: 1, page_size: 5 })` inside `RecentTasksTable.jsx`.
+  * Backend automatically scopes returned task items to the authenticated user's role (Admin sees organization-wide recent tasks; Employee sees personal assigned tasks).
+* **UX States**:
+  * **Loading**: Render skeleton pulse cards (`.skeleton-card`) and table skeleton rows (`.table-skeleton`).
+  * **Empty State**: Renders clean informational cards when task count or stats are zero.
+  * **Error State**: Displays user-friendly alert box with a "Retry Data" action without exposing sensitive stack traces.
+
