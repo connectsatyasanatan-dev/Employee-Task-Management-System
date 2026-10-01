@@ -1,0 +1,63 @@
+# Environment & Secret Files
+.env
+.env.*
+.env*.local
+!.env.example
+*.pem
+*.key
+*.secret
+*.cert
+credentials.json
+
+# Python Virtual Environments & Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+*.venv/
+
+# Python Testing & Linting Caches
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# SQLite Databases & Journal / WAL Files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Node & Frontend Build Output / Caches
+node_modules/
+dist/
+dist-ssr/
+build/
+out/
+.vite/
+
+# Logs & Debug Output
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor / OS Temporary Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
