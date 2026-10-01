@@ -6,6 +6,7 @@ from app.db.database import Base, engine
 import app.models
 from app.api.routes.auth import router as auth_router
 from app.api.routes.employees import router as employees_router
+from app.api.routes.tasks import router as tasks_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -17,6 +18,7 @@ app = FastAPI(
 
 app.include_router(auth_router)
 app.include_router(employees_router)
+app.include_router(tasks_router)
 
 app.add_middleware(
     CORSMiddleware,

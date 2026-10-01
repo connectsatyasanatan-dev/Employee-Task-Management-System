@@ -6,7 +6,13 @@ from app.schemas.employee import (
     EmployeeResponse,
     PaginatedEmployeeResponse,
 )
-from app.schemas.task import TaskCreate, TaskResponse
+from app.schemas.task import (
+    TaskCreate,
+    TaskUpdate,
+    TaskStatusUpdate,
+    TaskResponse,
+    PaginatedTaskResponse,
+)
 
 __all__ = [
     "UserCreate",
@@ -18,5 +24,8 @@ __all__ = [
     "EmployeeResponse",
     "PaginatedEmployeeResponse",
     "TaskCreate",
+    "TaskUpdate",
+    "TaskStatusUpdate",
     "TaskResponse",
+    "PaginatedTaskResponse",
 ]

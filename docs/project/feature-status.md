@@ -18,8 +18,8 @@ This document tracks all features across the system using an evidence-based inve
 | `EMP-003` | View Employee Detail | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L144-L167) |
 | `EMP-004` | Update Employee Profile | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L170-L230) |
 | `EMP-005` | Toggle Employee Status (Deactivate) | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L233-L263) |
-| `TASK-001` | Task Database Model | All Users | **Implemented (Model Only)** | Code Inspection | [`backend/app/models/task.py`](file:///d:/Task-Management/backend/app/models/task.py) |
-| `TASK-002` | Task CRUD & Assignment API | Admin/Employee | **Planned (Not Implemented)** | Route Inspection | N/A (Routes missing) |
+| `TASK-001` | Task Database Model | All Users | **Implemented & Verified** | Code Inspection | [`backend/app/models/task.py`](file:///d:/Task-Management/backend/app/models/task.py) |
+| `TASK-002` | Task CRUD & Assignment API | Admin/Employee | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/tasks.py`](file:///d:/Task-Management/backend/app/api/routes/tasks.py) |
 | `DASH-001` | Dashboard Statistics API | Admin | **Planned (Not Implemented)** | Route Inspection | N/A (Routes missing) |
 | `UI-001` | Frontend Axios Client | All Users | **Implemented & Verified** | Code Inspection | [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js) |
 | `UI-002` | Frontend Routing & Pages | All Users | **Planned (Not Implemented)** | Code Inspection | [`frontend/src/App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) (Placeholder only) |
