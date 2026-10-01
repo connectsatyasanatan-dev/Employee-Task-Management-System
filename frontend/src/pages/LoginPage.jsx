@@ -127,31 +127,6 @@ export const LoginPage = () => {
             )}
           </button>
         </form>
-
-        {/* Quick Test Login Helper */}
-        <div className="login-quick-demo">
-          <span className="demo-helper-title">Quick Demo Login</span>
-          <div className="demo-pills-row">
-            <button
-              type="button"
-              className="demo-pill-btn"
-              onClick={() => handleQuickFill("admin@organization.com", "AdminPass123!")}
-              title="Fill Admin credentials"
-            >
-              <ShieldCheck size={14} className="text-primary" />
-              <span>Admin Demo</span>
-            </button>
-            <button
-              type="button"
-              className="demo-pill-btn"
-              onClick={() => handleQuickFill("sarah.chen@techcorp.io", "Pass#Chen2026")}
-              title="Fill Employee credentials"
-            >
-              <User size={14} className="text-muted" />
-              <span>Employee Demo</span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
