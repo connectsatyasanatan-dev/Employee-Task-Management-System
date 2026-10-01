@@ -73,25 +73,39 @@ export const AppLayout = () => {
         aria-label="Sidebar Navigation"
       >
         <div className="sidebar-header">
-          <div className="sidebar-brand-wrapper">
-            <div className="sidebar-brand-icon">
-              <Layers size={20} />
-            </div>
-            {!isCollapsed && (
-              <div className="sidebar-brand-text">
-                <span className="brand-name">TaskFlow</span>
+          {isCollapsed ? (
+            <button
+              type="button"
+              className="sidebar-collapse-toggle-collapsed"
+              onClick={toggleSidebarCollapse}
+              title="Expand Sidebar"
+              aria-label="Expand Sidebar"
+            >
+              <div className="sidebar-brand-icon">
+                <Layers size={20} />
               </div>
-            )}
-          </div>
-          <button
-            type="button"
-            className="sidebar-collapse-toggle desktop-only"
-            onClick={toggleSidebarCollapse}
-            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            {isCollapsed ? <PanelLeft size={18} /> : <PanelLeftClose size={18} />}
-          </button>
+            </button>
+          ) : (
+            <>
+              <div className="sidebar-brand-wrapper">
+                <div className="sidebar-brand-icon">
+                  <Layers size={20} />
+                </div>
+                <div className="sidebar-brand-text">
+                  <span className="brand-name">TaskFlow</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="sidebar-collapse-toggle desktop-only"
+                onClick={toggleSidebarCollapse}
+                title="Collapse Sidebar"
+                aria-label="Collapse Sidebar"
+              >
+                <PanelLeftClose size={18} />
+              </button>
+            </>
+          )}
         </div>
 
         {!isCollapsed && <div className="sidebar-section-label">MAIN NAVIGATION</div>}
@@ -165,16 +179,6 @@ export const AppLayout = () => {
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             >
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-
-            <button
-              type="button"
-              className="desktop-header-collapse-btn"
-              onClick={toggleSidebarCollapse}
-              title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-              aria-label={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-            >
-              {isCollapsed ? <PanelLeft size={20} /> : <PanelLeftClose size={20} />}
             </button>
 
             <div className="header-greeting">

@@ -2,9 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import {
   AlertCircle,
   AlertTriangle,
+  BarChart3,
   CheckCircle2,
   CheckSquare,
   Clock,
+  Columns,
+  ListTodo,
   Loader,
   RefreshCw,
   Users,
@@ -22,6 +25,7 @@ export const DashboardPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [viewMode, setViewMode] = useState("split"); // 'split' | 'chart' | 'table'
 
   const fetchDashboardStats = useCallback(async () => {
     setLoading(true);
@@ -71,11 +75,19 @@ export const DashboardPage = () => {
     };
   }, []);
 
+  const handleToggleChartExpand = () => {
+    setViewMode((prev) => (prev === "chart" ? "split" : "chart"));
+  };
+
+  const handleToggleTableExpand = () => {
+    setViewMode((prev) => (prev === "table" ? "split" : "table"));
+  };
+
   return (
     <div className="dashboard-container">
       {/* Page Header */}
       <div className="dashboard-header-row">
-        <div>
+        <div className="dashboard-header-info">
           <h1 className="page-title">
             {isAdmin ? "Administrator Dashboard" : "My Task Dashboard"}
           </h1>
@@ -85,16 +97,51 @@ export const DashboardPage = () => {
         </div>
 
         <div className="dashboard-header-actions">
+          {/* Segmented Layout View Switcher */}
+          <div className="view-mode-segmented-control" role="group" aria-label="Dashboard layout view">
+            <button
+              type="button"
+              className={`view-mode-pill ${viewMode === "split" ? "active" : ""}`}
+              onClick={() => setViewMode("split")}
+              title="Side-by-side Split View"
+              aria-label="Side-by-side Split View"
+            >
+              <Columns size={14} />
+              <span>Split View</span>
+            </button>
+            <button
+              type="button"
+              className={`view-mode-pill ${viewMode === "chart" ? "active" : ""}`}
+              onClick={() => setViewMode("chart")}
+              title="Expand Chart Analytics"
+              aria-label="Expand Chart Analytics"
+            >
+              <BarChart3 size={14} />
+              <span>Chart Analytics</span>
+            </button>
+            <button
+              type="button"
+              className={`view-mode-pill ${viewMode === "table" ? "active" : ""}`}
+              onClick={() => setViewMode("table")}
+              title="Expand Task Stream Table"
+              aria-label="Expand Task Stream Table"
+            >
+              <ListTodo size={14} />
+              <span>Task Stream</span>
+            </button>
+          </div>
+
           {lastUpdated && (
             <span className="last-updated-text">Updated {lastUpdated}</span>
           )}
+
           <button
             className="btn-secondary"
             onClick={fetchDashboardStats}
             disabled={loading}
             aria-label="Refresh dashboard metrics"
           >
-            <RefreshCw size={16} className={loading ? "spin" : ""} />
+            <RefreshCw size={15} className={loading ? "spin" : ""} />
             <span>Refresh</span>
           </button>
         </div>
@@ -173,10 +220,22 @@ export const DashboardPage = () => {
         )}
       </div>
 
-      {/* Main Content Grid: Chart + Recent Tasks */}
-      <div className="dashboard-grid">
-        <TaskDistributionChart stats={stats} />
-        <RecentTasksTable isAdmin={isAdmin} />
+      {/* Main Analytics Content Section */}
+      <div className={`dashboard-grid view-${viewMode}`}>
+        {(viewMode === "split" || viewMode === "chart") && (
+          <TaskDistributionChart
+            stats={stats}
+            isExpanded={viewMode === "chart"}
+            onToggleExpand={handleToggleChartExpand}
+          />
+        )}
+        {(viewMode === "split" || viewMode === "table") && (
+          <RecentTasksTable
+            isAdmin={isAdmin}
+            isExpanded={viewMode === "table"}
+            onToggleExpand={handleToggleTableExpand}
+          />
+        )}
       </div>
     </div>
   );
