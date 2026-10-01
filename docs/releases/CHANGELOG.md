@@ -22,6 +22,8 @@ All notable changes to this project are documented in this file.
   - `PUT /api/tasks/{task_id}` (Admin update of task details, assignee, dates)
   - `PATCH /api/tasks/{task_id}/status` (Status update for Admin or assigned Employee)
   - `DELETE /api/tasks/{task_id}` (Admin task deletion)
+- Implemented Dashboard Analytics API under `/api/dashboard`:
+  - `GET /api/dashboard/stats` (Real-time count metrics for total employees, total tasks, pending, in-progress, completed, and overdue tasks)
 - Established version-controlled documentation suite under `docs/`.
 
 ---

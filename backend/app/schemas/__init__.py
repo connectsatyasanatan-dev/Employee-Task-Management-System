@@ -13,6 +13,7 @@ from app.schemas.task import (
     TaskResponse,
     PaginatedTaskResponse,
 )
+from app.schemas.dashboard import DashboardStatsResponse
 
 __all__ = [
     "UserCreate",
@@ -28,4 +29,5 @@ __all__ = [
     "TaskStatusUpdate",
     "TaskResponse",
     "PaginatedTaskResponse",
+    "DashboardStatsResponse",
 ]
