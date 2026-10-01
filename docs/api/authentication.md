@@ -92,3 +92,13 @@ Feature ID: `AUTH-001` - `AUTH-005`
 * **Auth Requirement**: `Authorization: Bearer <access_token>` (Role: `admin`)
 * **Response (200 OK)**: User profile object.
 * **Error Response**: `403 Forbidden` (`"Admin access required"`).
+
+---
+
+## 💻 Frontend Session Restoration & Cookie Lifecycle
+
+* **Session Restoration**: When the browser is refreshed or reopened on a protected route, `AuthContext` executes `restoreSession()` which calls `POST /api/auth/refresh` with `withCredentials: true`.
+* **In-Flight Request Deduplication**: `authApi.refresh()` deduplicates concurrent refresh calls, ensuring React StrictMode double mounts share the single network request and avoid race-condition token invalidations.
+* **Origin Alignment**: Frontend `VITE_API_BASE_URL` is set to `http://localhost:8000` to match the frontend origin (`http://localhost:5173` or `5174`), enabling browsers to transmit `SameSite=Lax` HttpOnly cookies without cross-site suppression.
+* **Route Guarding**: `ProtectedRoute` maintains a loading screen until session restoration completes, preventing premature redirects to `/login`.
+

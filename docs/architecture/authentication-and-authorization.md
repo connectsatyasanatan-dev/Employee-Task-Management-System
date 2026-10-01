@@ -40,3 +40,6 @@ sequenceDiagram
 3. **Cookie Hardening**: Refresh tokens are stored in `HttpOnly` cookies (`path="/api/auth"`), preventing client-side JavaScript (XSS) from reading them.
 4. **Token Rotation**: Every call to `/api/auth/refresh` revokes the old session and issues a new refresh token.
 5. **Role-Based Access Control (RBAC)**: Enforced via `require_admin` dependency in [`dependencies.py`](file:///d:/Task-Management/backend/app/api/dependencies.py#L54-L63).
+6. **Session Restoration on Page Reload**: On browser startup or refresh, `AuthContext` restores credentials in-memory via `authApi.refresh()`. In-flight refresh requests are deduplicated to avoid competing token rotations during React StrictMode double mounts.
+7. **Origin Consistency & CORS**: Frontend `VITE_API_BASE_URL` matches the frontend host domain (`localhost`) to ensure browsers transmit `SameSite=Lax` HttpOnly refresh cookies without cross-site suppression. Backend `CORSMiddleware` explicitly permits `http://localhost:5173`, `http://localhost:5174`, `http://127.0.0.1:5173`, and `http://127.0.0.1:5174` with `allow_credentials=True`.
+

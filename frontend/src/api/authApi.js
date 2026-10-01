@@ -1,4 +1,5 @@
 import apiClient from "./client";
+let refreshPromise = null;
 
 export const authApi = {
   login: async (email, password) => {
@@ -7,8 +8,15 @@ export const authApi = {
   },
 
   refresh: async () => {
-    const response = await apiClient.post("/api/auth/refresh");
-    return response.data;
+    if (!refreshPromise) {
+      refreshPromise = apiClient
+        .post("/api/auth/refresh")
+        .then((response) => response.data)
+        .finally(() => {
+          refreshPromise = null;
+        });
+    }
+    return refreshPromise;
   },
 
   logout: async () => {
@@ -23,3 +31,4 @@ export const authApi = {
 };
 
 export default authApi;
+
