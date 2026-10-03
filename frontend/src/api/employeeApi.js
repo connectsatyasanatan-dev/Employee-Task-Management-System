@@ -27,6 +27,12 @@ export const employeeApi = {
     });
     return response.data;
   },
+
+  deleteEmployee: async (id) => {
+    const response = await apiClient.delete(`/api/employees/${id}`);
+    return response.data;
+  },
 };
 
 export default employeeApi;
+

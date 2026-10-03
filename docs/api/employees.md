@@ -1,7 +1,7 @@
 # Employee Management API Specification
 
 Base Path: `/api/employees`  
-Feature ID: `EMP-001` - `EMP-005`  
+Feature ID: `EMP-001` - `EMP-006`  
 Required Role: `admin` (`Authorization: Bearer <access_token>`)
 
 ---
@@ -87,6 +87,22 @@ Required Role: `admin` (`Authorization: Bearer <access_token>`)
 
 ---
 
+## 6. DELETE `/api/employees/{employee_id}`
+* **Purpose**: Permanently delete an employee user and all their associated data (profile, assigned tasks, refresh sessions) via SQLAlchemy cascade.
+* **Auth Requirement**: Admin only.
+* **Response (200 OK)**:
+```json
+{
+  "message": "Employee deleted successfully"
+}
+```
+* **Errors**:
+  * `404 Not Found`: `"Employee not found"`
+
+> ⚠️ **Irreversible**: This is a hard delete. All related records (profile, tasks, sessions) are permanently removed via `cascade="all, delete-orphan"` on the `User` model.
+
+---
+
 ## 💻 Frontend UI Integration Details
 
 * **Page Component**: [`frontend/src/pages/EmployeesPage.jsx`](file:///d:/Task-Management/frontend/src/pages/EmployeesPage.jsx)
@@ -96,5 +112,7 @@ Required Role: `admin` (`Authorization: Bearer <access_token>`)
   * Real-time debounced search filter (400ms) on name or email.
   * Responsive table layout on desktop/tablet with mobile card reflow.
   * `EmployeeModal` component supporting atomic creation and PUT profile edits with field validation.
-  * `ConfirmDialog` component providing safe status activation/deactivation confirmations.
+  * `ConfirmDialog` for safe status activation/deactivation confirmations.
+  * `ConfirmDialog` (danger variant) for permanent employee deletion with cascade warning message.
+  * Delete button (`Trash2` icon) in both desktop table actions and mobile card footer.
 

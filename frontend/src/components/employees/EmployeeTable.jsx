@@ -1,10 +1,11 @@
-import { Edit2, UserCheck, UserX, Mail, Phone, Briefcase, Building } from "lucide-react";
+import { Edit2, UserCheck, UserX, Mail, Phone, Briefcase, Building, Trash2 } from "lucide-react";
 
 export const EmployeeTable = ({
   employees = [],
   loading = false,
   onEdit,
   onToggleStatus,
+  onDelete,
 }) => {
   const getInitials = (name) => {
     if (!name) return "E";
@@ -138,6 +139,16 @@ export const EmployeeTable = ({
                     >
                       {employee.is_active ? <UserX size={15} /> : <UserCheck size={15} />}
                     </button>
+
+                    <button
+                      type="button"
+                      className="btn-icon btn-icon-danger"
+                      onClick={() => onDelete(employee)}
+                      title="Permanently delete employee"
+                      aria-label={`Delete ${employee.name}`}
+                    >
+                      <Trash2 size={15} />
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -215,6 +226,15 @@ export const EmployeeTable = ({
                     <span>Activate</span>
                   </>
                 )}
+              </button>
+
+              <button
+                type="button"
+                className="btn-sm btn-danger"
+                onClick={() => onDelete(employee)}
+              >
+                <Trash2 size={14} />
+                <span>Delete</span>
               </button>
             </div>
           </div>

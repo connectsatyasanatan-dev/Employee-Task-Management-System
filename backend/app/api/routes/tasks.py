@@ -68,6 +68,9 @@ def list_tasks(
     priority: Annotated[
         Optional[str], Query(description="Filter by priority")
     ] = None,
+    search: Annotated[
+        Optional[str], Query(description="Search by task title")
+    ] = None,
     assigned_to_user_id: Annotated[
         Optional[int], Query(description="Admin filter by assignee user ID")
     ] = None,
@@ -75,7 +78,7 @@ def list_tasks(
     db: Session = Depends(get_db),
 ):
     """
-    List tasks with optional filtering and pagination.
+    List tasks with optional filtering, search, and pagination.
     - Admin: View all tasks or filter by any assignee.
     - Employee: Restricted to view ONLY tasks assigned to their own user ID.
     """
@@ -87,6 +90,13 @@ def list_tasks(
     elif assigned_to_user_id is not None:
         statement = statement.where(
             Task.assigned_to_user_id == assigned_to_user_id
+        )
+
+    # Title search filter
+    if search and search.strip():
+        search_pattern = f"%{search.strip().lower()}%"
+        statement = statement.where(
+            func.lower(Task.title).like(search_pattern)
         )
 
     # Status filter

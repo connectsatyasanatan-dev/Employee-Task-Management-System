@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { AlertCircle, Plus, RefreshCw, CheckCircle2, Filter } from "lucide-react";
+import { AlertCircle, Plus, RefreshCw, CheckCircle2, Filter, Search } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import taskApi from "../api/taskApi";
 import employeeApi from "../api/employeeApi";
@@ -36,6 +36,8 @@ export const TasksPage = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
   const [assigneeFilter, setAssigneeFilter] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -66,6 +68,15 @@ export const TasksPage = () => {
     }
   }, [isAdmin]);
 
+  // Debounce search query
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchInput);
+      setPage(1);
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchInput]);
+
   const loadTasks = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -75,6 +86,7 @@ export const TasksPage = () => {
         page_size: 10,
         status: statusFilter || undefined,
         priority: priorityFilter || undefined,
+        search: debouncedSearch.trim() || undefined,
         assigned_to_user_id: assigneeFilter ? Number(assigneeFilter) : undefined,
       };
       const data = await taskApi.getTasks(params);
@@ -88,7 +100,7 @@ export const TasksPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, statusFilter, priorityFilter, assigneeFilter]);
+  }, [page, statusFilter, priorityFilter, assigneeFilter, debouncedSearch]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -102,6 +114,7 @@ export const TasksPage = () => {
           page_size: 10,
           status: statusFilter || undefined,
           priority: priorityFilter || undefined,
+          search: debouncedSearch.trim() || undefined,
           assigned_to_user_id: assigneeFilter ? Number(assigneeFilter) : undefined,
         };
         const data = await taskApi.getTasks(params);
@@ -128,7 +141,7 @@ export const TasksPage = () => {
     return () => {
       isSubscribed = false;
     };
-  }, [page, statusFilter, priorityFilter, assigneeFilter]);
+  }, [page, statusFilter, priorityFilter, assigneeFilter, debouncedSearch]);
 
   const showToast = (msg) => {
     setToast(msg);
@@ -287,6 +300,29 @@ export const TasksPage = () => {
 
       {/* Filter Toolbar */}
       <div className="toolbar-card card mb-4">
+        {/* Search Box Row */}
+        <div className="search-box mb-3">
+          <Search size={18} className="search-icon" />
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search tasks by title..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            aria-label="Search tasks by title"
+          />
+          {searchInput && (
+            <button
+              type="button"
+              className="search-clear-btn"
+              onClick={() => setSearchInput("")}
+              aria-label="Clear task search"
+            >
+              ×
+            </button>
+          )}
+        </div>
+
         <div className="filter-group-row">
           <div className="filter-item">
             <Filter size={16} className="text-muted" />
@@ -346,7 +382,7 @@ export const TasksPage = () => {
             </div>
           )}
 
-          {(statusFilter || priorityFilter || assigneeFilter) && (
+          {(statusFilter || priorityFilter || assigneeFilter || searchInput) && (
             <button
               type="button"
               className="btn-secondary btn-sm"
@@ -354,10 +390,11 @@ export const TasksPage = () => {
                 setStatusFilter("");
                 setPriorityFilter("");
                 setAssigneeFilter("");
+                setSearchInput("");
                 setPage(1);
               }}
             >
-              Clear Filters
+              Clear All
             </button>
           )}
         </div>

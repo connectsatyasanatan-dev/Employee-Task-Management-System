@@ -32,6 +32,11 @@ export const EmployeesPage = () => {
   const [statusTargetEmployee, setStatusTargetEmployee] = useState(null);
   const [statusLoading, setStatusLoading] = useState(false);
 
+  // Delete confirm dialog state
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [deleteTargetEmployee, setDeleteTargetEmployee] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
   // Debounce search query
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -172,6 +177,31 @@ export const EmployeesPage = () => {
     }
   };
 
+  // Open Delete Confirmation Dialog
+  const handleOpenDeleteDialog = (emp) => {
+    setDeleteTargetEmployee(emp);
+    setIsDeleteDialogOpen(true);
+  };
+
+  // Confirm Delete
+  const handleConfirmDelete = async () => {
+    if (!deleteTargetEmployee) return;
+    setDeleteLoading(true);
+    try {
+      await employeeApi.deleteEmployee(deleteTargetEmployee.id);
+      showToast(`Employee "${deleteTargetEmployee.name}" has been permanently deleted.`);
+      setIsDeleteDialogOpen(false);
+      setDeleteTargetEmployee(null);
+      loadEmployees();
+    } catch (err) {
+      showToast(
+        err.response?.data?.detail || "Failed to delete employee."
+      );
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   return (
     <div className="employees-container">
       {/* Page Header */}
@@ -271,6 +301,7 @@ export const EmployeesPage = () => {
         loading={loading}
         onEdit={handleOpenEditModal}
         onToggleStatus={handleOpenStatusDialog}
+        onDelete={handleOpenDeleteDialog}
       />
 
       {/* Pagination Controls */}
@@ -313,6 +344,18 @@ export const EmployeesPage = () => {
         confirmText={statusTargetEmployee?.is_active ? "Deactivate" : "Activate"}
         variant={statusTargetEmployee?.is_active ? "danger" : "primary"}
         loading={statusLoading}
+      />
+
+      {/* Delete Employee Confirm Dialog */}
+      <ConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title={`Delete Employee: ${deleteTargetEmployee?.name}`}
+        message={`Are you sure you want to permanently delete "${deleteTargetEmployee?.name}"? This will remove all their data including assigned tasks history. This action cannot be undone.`}
+        confirmText="Delete Employee"
+        variant="danger"
+        loading={deleteLoading}
       />
     </div>
   );

@@ -266,3 +266,31 @@ def update_employee_status(
     db.refresh(user)
 
     return EmployeeResponse.from_user(user)
+
+
+@router.delete(
+    "/{employee_id}",
+    status_code=status.HTTP_200_OK,
+)
+def delete_employee(
+    employee_id: int,
+    current_admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    """
+    Permanently delete an employee user and all associated profile data. Admin only.
+    """
+    user = db.scalar(
+        select(User).where(User.id == employee_id, User.role == "employee")
+    )
+
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Employee not found",
+        )
+
+    db.delete(user)
+    db.commit()
+
+    return {"message": "Employee deleted successfully"}

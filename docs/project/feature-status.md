@@ -17,15 +17,16 @@ This document tracks all features across the system using an evidence-based inve
 | `EMP-002` | Atomic Employee Creation | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L81-L141) |
 | `EMP-003` | View Employee Detail | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L144-L167) |
 | `EMP-004` | Update Employee Profile | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L170-L230) |
-| `EMP-005` | Toggle Employee Status (Deactivate) | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L233-L263) |
+| `EMP-005` | Toggle Employee Status (Deactivate) | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L233-L269) |
+| `EMP-006` | Permanent Employee Delete (Hard Delete) | Admin | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/employees.py`](file:///d:/Task-Management/backend/app/api/routes/employees.py#L271-L297) |
 | `TASK-001` | Task Database Model | All Users | **Implemented & Verified** | Code Inspection | [`backend/app/models/task.py`](file:///d:/Task-Management/backend/app/models/task.py) |
 | `TASK-002` | Task CRUD & Assignment API | Admin/Employee | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/tasks.py`](file:///d:/Task-Management/backend/app/api/routes/tasks.py) |
 | `DASH-001` | Dashboard Statistics API | All Users | **Implemented & Verified** | OpenAPI route check | [`backend/app/api/routes/dashboard.py`](file:///d:/Task-Management/backend/app/api/routes/dashboard.py) |
 | `UI-001` | Frontend Axios Client & Interceptors | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/api/client.js`](file:///d:/Task-Management/frontend/src/api/client.js) |
 | `UI-002` | Frontend Routing & App Shell | All Users | **Implemented & Verified** | Code Inspection & Build | [`frontend/src/App.jsx`](file:///d:/Task-Management/frontend/src/App.jsx) |
 | `UI-003` | Role-Aware Dashboard UI & Charts | All Users | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/DashboardPage.jsx`](file:///d:/Task-Management/frontend/src/pages/DashboardPage.jsx) |
-| `UI-004` | Employee Management UI (List, Add, Edit, Status) | Admin Only | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/EmployeesPage.jsx`](file:///d:/Task-Management/frontend/src/pages/EmployeesPage.jsx) |
-| `UI-005` | Task Management UI (CRUD, Filters, Detail Modal) | Admin/Employee | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/TasksPage.jsx`](file:///d:/Task-Management/frontend/src/pages/TasksPage.jsx) |
+| `UI-004` | Employee Management UI (List, Add, Edit, Status, Delete) | Admin Only | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/EmployeesPage.jsx`](file:///d:/Task-Management/frontend/src/pages/EmployeesPage.jsx) |
+| `UI-005` | Task Management UI (CRUD, Search, Filters, Detail Modal) | Admin/Employee | **Implemented & Verified** | Manual UI & ESLint/Vite Build | [`frontend/src/pages/TasksPage.jsx`](file:///d:/Task-Management/frontend/src/pages/TasksPage.jsx) |
 
 ---
 

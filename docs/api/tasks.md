@@ -31,6 +31,7 @@ Status: **Implemented & Verified**
 * **Query Parameters**:
   * `page` (integer, default: `1`, min: `1`)
   * `page_size` (integer, default: `10`, min: `1`, max: `100`)
+  * `search` (string, optional): Case-insensitive match on task **title**. Available to Admin and Employee.
   * `status` (string, optional): `"Pending"`, `"In Progress"`, `"Completed"` (case-insensitive).
   * `priority` (string, optional): `"Low"`, `"Medium"`, `"High"` (case-insensitive).
   * `assigned_to_user_id` (integer, optional, Admin only): Filter tasks by assignee ID.
@@ -140,7 +141,9 @@ Status: **Implemented & Verified**
   * **Admin View**: Displays organization-wide task board, assignee selector filter, "Create Task" button, "Edit Task" action, and "Delete Task" confirmation modal.
   * **Employee View**: Displays assigned task list, status/priority filters, and quick inline status update dropdown (`PATCH /api/tasks/{id}/status`).
 * **UI Features**:
-  * Multi-parameter task list filtering (Status, Priority, Assignee).
+  * Real-time debounced title search input (400ms) — sends `?search=` to backend, available to both Admin and Employee.
+  * Multi-parameter task list filtering (Status, Priority, Assignee) combinable with title search.
+  * "Clear All" button resets all active filters and search simultaneously.
   * `TaskModal` for task creation/editing with date relationship validation (`due_date >= start_date`).
   * `TaskDetailModal` providing detailed metadata view and direct status changes.
   * `ConfirmDialog` for permanent task deletion (`DELETE /api/tasks/{id}`).

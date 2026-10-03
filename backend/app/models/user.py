@@ -32,15 +32,18 @@ class User(Base):
         "EmployeeProfile",
         back_populates="user",
         uselist=False,
+        cascade="all, delete-orphan",
     )
 
     assigned_tasks = relationship(
         "Task",
         back_populates="assignee",
         foreign_keys="Task.assigned_to_user_id",
+        cascade="all, delete-orphan",
     )
 
     refresh_sessions: Mapped[list["RefreshSession"]] = relationship(
         "RefreshSession",
         back_populates="user",
+        cascade="all, delete-orphan",
     )
